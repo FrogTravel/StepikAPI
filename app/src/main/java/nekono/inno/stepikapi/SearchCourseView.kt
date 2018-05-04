@@ -1,11 +1,14 @@
 package nekono.inno.stepikapi
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 
-class SearchCourseView : Activity() {
+class SearchCourseView : Activity(), SearchCourse.View {
+
+    val presenter = SearchCoursePresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -13,12 +16,13 @@ class SearchCourseView : Activity() {
 
         var recyclerView = findViewById<RecyclerView>(R.id.search_result)
 
-        var courseArray = arrayListOf<Course>(Course("1", 0.0, ""),
-                Course("2", 0.0, ""))
 
         recyclerView.layoutManager = GridLayoutManager(this, 2)
-        recyclerView.adapter = CourseResultAdapter(courseArray)
+        recyclerView.adapter = CourseResultAdapter(presenter)
     }
 
+
+    //TODO maybe change name
+    override fun getContextActivity(): Context = this
 
 }

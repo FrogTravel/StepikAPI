@@ -1,23 +1,33 @@
 package nekono.inno.stepikapi
 
+import android.support.v7.content.res.AppCompatResources.getDrawable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.GlideBuilder
+import com.bumptech.glide.load.model.GlideUrl
+import com.squareup.picasso.Picasso
 
-class CourseResultAdapter(val courseList : ArrayList<Course>) : RecyclerView.Adapter<CourseResultAdapter.CourseViewHolder>() {
+class CourseResultAdapter(val presenter : SearchCourse.Presenter) : RecyclerView.Adapter<CourseResultAdapter.CourseViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.search_element, parent, false)
 
         return CourseViewHolder(itemView)
     }
 
-    override fun getItemCount() = courseList.size
+    override fun getItemCount() = presenter.getCourses().size
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
-        holder.courseName.text = courseList[position].course_title
+        val course = presenter.getCourses()[position]
+        holder.courseName.text = course.course_title
+
+        Picasso.get().load(course.course_cover)
+                .into(holder.courseCover)
+
     }
 
     class CourseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

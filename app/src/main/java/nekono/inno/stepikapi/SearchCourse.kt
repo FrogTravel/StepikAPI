@@ -1,11 +1,14 @@
 package nekono.inno.stepikapi
 
-interface SearchCourse {
-    interface View{
+import android.content.Context
 
+interface SearchCourse {
+    interface View {
+        fun getContextActivity() : Context
     }
 
-    interface Presenter{
-
+    interface Presenter {
+        fun getCourses(): ArrayList<Course>
+        fun getContext(): Context
     }
 }
