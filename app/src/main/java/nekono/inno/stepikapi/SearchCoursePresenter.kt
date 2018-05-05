@@ -81,5 +81,12 @@ class SearchCoursePresenter(val view: SearchCourse.View) : SearchCourse.Presente
     }
 
     override fun courseClicked(course: Course) {
+        if(!course.marked) {
+            course.marked = true
+            markedCourses.add(course)
+        }else{
+            course.marked = false
+            markedCourses.remove(course)
+        }
     }
 }
