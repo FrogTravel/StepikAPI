@@ -9,6 +9,7 @@
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
     android:id="@+id/card_view"
+    android:background="@color/colorLight"
     >
 
     <RelativeLayout
@@ -29,7 +30,8 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/course_cover"
             android:text="TextView"
-            android:textSize="15dp"/>
+            android:textSize="15dp"
+            android:layout_marginLeft="5dp"/>
 
 
         <ImageView

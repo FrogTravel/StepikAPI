@@ -22,15 +22,21 @@ class CourseResultAdapter(val presenter : SearchCourse.Presenter) : RecyclerView
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
         val course = presenter.getCourses()[position]
-        holder.courseName.text = course.course_title
 
-        Picasso.get().load(course.course_cover)
-                .error(getDrawable(holder.itemView.context, R.drawable.default_pic)!!)
-                .placeholder(getDrawable(holder.itemView.context, R.drawable.default_pic)!!)
-                .into(holder.courseCover)
+        if(course.target_type == "lesson"){
+            holder.courseName.text = "Урок: " + course.lesson_title
+        }else {
+
+            holder.courseName.text = course.course_title
+
+            Picasso.get().load(course.course_cover)
+                    .error(getDrawable(holder.itemView.context, R.drawable.default_pic)!!)
+                    .placeholder(getDrawable(holder.itemView.context, R.drawable.default_pic)!!)
+                    .into(holder.courseCover)
 
 
-        holder.starImageView.visibility = if(!course.marked) View.INVISIBLE else View.VISIBLE
+            holder.starImageView.visibility = if (!course.marked) View.INVISIBLE else View.VISIBLE
+        }
 
     }
 

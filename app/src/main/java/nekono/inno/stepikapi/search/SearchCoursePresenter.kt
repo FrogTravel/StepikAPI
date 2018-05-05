@@ -108,9 +108,11 @@ class SearchCoursePresenter(val view: SearchCourse.View) : SearchCourse.Presente
         if (!course.marked) {
             course.marked = true
             markedCourses.add(course)
+            view.showAddedToMarkedToast()
         } else {
             course.marked = false
             markedCourses.remove(course)
+            view.showRemovedFromMarkedToast()
         }
         view.showCourses()
     }

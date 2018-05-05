@@ -14,6 +14,10 @@ import android.net.ConnectivityManager
 import com.google.gson.reflect.TypeToken
 import nekono.inno.stepikapi.R
 import nekono.inno.stepikapi.util.Course
+import android.widget.Toast
+import android.R.attr.data
+import android.app.PendingIntent.getActivity
+
 
 /**
  * Создание-инициализация всех вьюх и всякий элементов, логики здесь нет, все пасится в presenter
@@ -24,6 +28,7 @@ class SearchCourseView : Activity(), SearchCourse.View {
     lateinit var nextButton: Button
     lateinit var searchEditText: EditText
     lateinit var recyclerView: RecyclerView
+    val SAVETAG = "MarkedCourses"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,7 +96,7 @@ class SearchCourseView : Activity(), SearchCourse.View {
 
         val json = gson.toJson(courses)
 
-        editor.putString("MarkedCourses", json)
+        editor.putString(SAVETAG, json)
         editor.commit()
     }
 
@@ -104,7 +109,7 @@ class SearchCourseView : Activity(), SearchCourse.View {
     override fun readCourses(): ArrayList<Course>? {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
         val gson = Gson()
-        val json = sharedPrefs.getString("MarkedCourses", null)
+        val json = sharedPrefs.getString(SAVETAG, null)
         val type = object : TypeToken<ArrayList<Course>>() {
 
         }.type
@@ -114,5 +119,15 @@ class SearchCourseView : Activity(), SearchCourse.View {
 
     override fun disableEditText() {
         searchEditText.isEnabled = false
+    }
+
+    override fun showAddedToMarkedToast() {
+        Toast.makeText(this,"Добавлено в избранные!",
+                Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showRemovedFromMarkedToast() {
+        Toast.makeText(this,"Удалено из избранных!",
+                Toast.LENGTH_SHORT).show()
     }
 }

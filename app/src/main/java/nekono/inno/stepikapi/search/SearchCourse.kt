@@ -19,6 +19,8 @@ interface SearchCourse {
         fun isNetworkAvailable(): Boolean
         fun readCourses() : ArrayList<Course>?
         fun disableEditText()
+        fun showAddedToMarkedToast()
+        fun showRemovedFromMarkedToast()
     }
 
     interface Presenter {
