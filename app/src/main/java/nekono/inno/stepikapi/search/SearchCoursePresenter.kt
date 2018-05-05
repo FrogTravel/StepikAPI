@@ -18,7 +18,6 @@ class SearchCoursePresenter(val view: SearchCourse.View) : SearchCourse.Presente
 
     var markedCourses = arrayListOf<Course>()
 
-    //TODO temp for Debug then check for cached or make get
     override fun getCourses() = coursesList
 
     override fun start() {

@@ -3,6 +3,9 @@ package nekono.inno.stepikapi.search
 import android.view.KeyEvent
 import nekono.inno.stepikapi.util.Course
 
+/**
+ * Главный интерфейс для MVP
+ */
 interface SearchCourse {
     interface View {
         fun showCourses()

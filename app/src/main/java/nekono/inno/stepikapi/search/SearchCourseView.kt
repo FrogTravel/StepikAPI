@@ -15,9 +15,10 @@ import com.google.gson.reflect.TypeToken
 import nekono.inno.stepikapi.R
 import nekono.inno.stepikapi.util.Course
 
-
+/**
+ * Создание-инициализация всех вьюх и всякий элементов, логики здесь нет, все пасится в presenter
+ */
 class SearchCourseView : Activity(), SearchCourse.View {
-
     val presenter = SearchCoursePresenter(this)
     lateinit var prevButton: Button
     lateinit var nextButton: Button
@@ -48,11 +49,11 @@ class SearchCourseView : Activity(), SearchCourse.View {
         recyclerView.adapter = CourseResultAdapter(presenter)
     }
 
-    public fun onPrevious(view: View) {
+    fun onPrevious(view: View) {
         presenter.previousPage()
     }
 
-    public fun onNext(view: View) {
+    fun onNext(view: View) {
         presenter.nextPage()
     }
 
@@ -110,8 +111,6 @@ class SearchCourseView : Activity(), SearchCourse.View {
         val arrayList = gson.fromJson<ArrayList<Course>>(json, type)
         return arrayList
     }
-
-
 
     override fun disableEditText() {
         searchEditText.isEnabled = false
