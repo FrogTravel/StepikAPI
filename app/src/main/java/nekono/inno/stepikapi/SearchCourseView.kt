@@ -7,8 +7,18 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import com.google.gson.Gson
+import android.content.Context
+import android.preference.PreferenceManager
+import android.net.ConnectivityManager
+import com.google.gson.reflect.TypeToken
+import android.content.SharedPreferences
+
+
+
 
 class SearchCourseView : Activity(), SearchCourse.View {
+
     val presenter = SearchCoursePresenter(this)
     lateinit var prevButton : Button
     lateinit var nextButton : Button
@@ -66,4 +76,49 @@ class SearchCourseView : Activity(), SearchCourse.View {
     }
 
     override fun getSearchWord() = searchEditText.text.toString()
+
+    override fun onPause() {
+        super.onPause()
+        presenter.activityPaused()
+    }
+
+    override fun saveCourses(courses: ArrayList<Course>){
+        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = sharedPrefs.edit()
+        val gson = Gson()
+
+        val json = gson.toJson(courses)
+
+        editor.putString("MarkedCourses", json)
+        editor.commit()
+    }
+
+    override fun isNetworkAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected
+    }
+
+    override fun readCourses(): ArrayList<Course>? {
+        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val gson = Gson()
+        val json = sharedPrefs.getString("MarkedCourses", null)
+        val type = object : TypeToken<ArrayList<Course>>() {
+
+        }.type
+        val arrayList = gson.fromJson<ArrayList<Course>>(json, type)
+        return arrayList
+    }
+
+    override fun showProgressBar() {
+
+    }
+
+    override fun hideProgressBar() {
+
+    }
+
+    override fun disableEditText() {
+        searchEditText.isEnabled = false
+    }
 }

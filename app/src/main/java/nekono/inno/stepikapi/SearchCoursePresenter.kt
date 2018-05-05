@@ -7,34 +7,57 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class SearchCoursePresenter(val view: SearchCourse.View) : SearchCourse.Presenter {
-    var coursesList  = arrayListOf<Course>()
+    var coursesList = arrayListOf<Course>()
     var pageNumber = 1
     var request = "Kotlin"
     val api = API.create()
 
-    val markedCourses = arrayListOf<Course>()
+    var markedCourses = arrayListOf<Course>()
 
     //TODO temp for Debug then check for cached or make get
     override fun getCourses() = coursesList
 
-    override fun start(){
+    override fun start() {
+        view.showProgressBar()
         view.disableNextButton()
         view.disablePreviousButton()
+
+        val temp = view.readCourses()
+        if (temp != null) {
+            markedCourses = temp
+        }
+
+        if (view.isNetworkAvailable()) {
+            requestCourses()
+        } else {
+            coursesList = markedCourses
+            view.showCourses()
+        }
+
         view.setHintWord(request)
 
-        requestCourses(pageNumber)
     }
 
-    private fun requestCourses(page: Int){
+    private fun requestCourses() {
 
-        api.getSearchResults(request, page)
+        api.getSearchResults(request, pageNumber)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onNext, this::onError)
+
+        view.hideProgressBar()
     }
 
-    private fun onNext(reply: Reply){
+    private fun onNext(reply: Reply) {
         coursesList = reply.search_results
+
+        coursesList.filter {
+            it.marked = true
+            val res = markedCourses.contains(it);
+            it.marked = false
+            res
+        }
+                .forEach { it.marked = true }
         Log.d("debugggg", "added: " + coursesList.toString())
 
         view.showCourses()
@@ -42,29 +65,29 @@ class SearchCoursePresenter(val view: SearchCourse.View) : SearchCourse.Presente
         updateButtons(reply.meta)
     }
 
-    private fun onError(error: Throwable){
+    private fun onError(error: Throwable) {
         Log.e("error", error.toString())
 
         error.printStackTrace()
-        requestCourses(pageNumber)
+        requestCourses()
 
     }
 
     override fun previousPage() {
-        requestCourses(--pageNumber)
+        pageNumber--
+        requestCourses()
         Log.d("debugggg", "Previous Page")
-
     }
 
     override fun nextPage() {
-        requestCourses(++pageNumber)
+        pageNumber++
+        requestCourses()
         Log.d("debugggg", "Next Page")
-
     }
 
-    private fun updateButtons(meta: Meta){
-        if(meta.has_next) view.activateNextButton() else view.disableNextButton()
-        if(meta.has_previous) view.activatePreviousButton() else view.disablePreviousButton()
+    private fun updateButtons(meta: Meta) {
+        if (meta.has_next) view.activateNextButton() else view.disableNextButton()
+        if (meta.has_previous) view.activatePreviousButton() else view.disablePreviousButton()
     }
 
     override fun keyClicked(v: View, keyCode: Int, event: KeyEvent): Boolean {
@@ -73,7 +96,7 @@ class SearchCoursePresenter(val view: SearchCourse.View) : SearchCourse.Presente
             request = view.getSearchWord()
 
             pageNumber = 1
-            requestCourses(pageNumber)
+            requestCourses()
 
             return true
         }
@@ -81,12 +104,19 @@ class SearchCoursePresenter(val view: SearchCourse.View) : SearchCourse.Presente
     }
 
     override fun courseClicked(course: Course) {
-        if(!course.marked) {
+        if (!course.marked) {
             course.marked = true
             markedCourses.add(course)
-        }else{
+        } else {
             course.marked = false
             markedCourses.remove(course)
         }
+        view.showCourses()
     }
+
+    override fun activityPaused() {
+        view.saveCourses(markedCourses)
+    }
+
+
 }

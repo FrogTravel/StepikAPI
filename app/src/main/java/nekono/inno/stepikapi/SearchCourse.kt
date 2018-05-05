@@ -11,6 +11,12 @@ interface SearchCourse {
         fun activateNextButton()
         fun getSearchWord(): String
         fun setHintWord(request : String)
+        fun saveCourses(courses: ArrayList<Course>)
+        fun isNetworkAvailable(): Boolean
+        fun readCourses() : ArrayList<Course>?
+        fun showProgressBar()
+        fun hideProgressBar()
+        fun disableEditText()
     }
 
     interface Presenter {
@@ -20,5 +26,6 @@ interface SearchCourse {
         fun previousPage()
         fun keyClicked(v: android.view.View, keyCode: Int, event: KeyEvent): Boolean
         fun courseClicked(course: Course)
+        fun activityPaused()
     }
 }

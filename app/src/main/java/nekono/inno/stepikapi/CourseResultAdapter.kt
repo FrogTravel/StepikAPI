@@ -29,6 +29,9 @@ class CourseResultAdapter(val presenter : SearchCourse.Presenter) : RecyclerView
                 .into(holder.courseCover)
 
         holder.courseRating.text = course.score.toString()
+
+        holder.starImageView.visibility = if(!course.marked) View.INVISIBLE else View.VISIBLE
+
     }
 
     class CourseViewHolder(itemView: View, presenter: SearchCourse.Presenter) : RecyclerView.ViewHolder(itemView){
@@ -36,9 +39,12 @@ class CourseResultAdapter(val presenter : SearchCourse.Presenter) : RecyclerView
         var courseCover = itemView.findViewById<ImageView>(R.id.course_cover)
         var courseRating = itemView.findViewById<TextView>(R.id.rating_text_view)
         var cardView  = itemView.findViewById<CardView>(R.id.card_view)
+        var starImageView = itemView.findViewById<ImageView>(R.id.star_image_view)
 
         init{
-            cardView.setOnClickListener(View.OnClickListener { presenter.courseClicked(presenter.getCourses()[adapterPosition]) })
+            cardView.setOnClickListener({ presenter.courseClicked(presenter.getCourses()[adapterPosition]) })
         }
     }
+
+
 }
