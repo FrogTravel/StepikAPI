@@ -1,14 +1,24 @@
 package nekono.inno.stepikapi
 
-import android.content.Context
+import android.view.KeyEvent
 
 interface SearchCourse {
     interface View {
-        fun getContextActivity() : Context
+        fun showCourses()
+        fun disablePreviousButton()
+        fun activatePreviousButton()
+        fun disableNextButton()
+        fun activateNextButton()
+        fun getSearchWord(): String
+        fun setHintWord(request : String)
     }
 
     interface Presenter {
         fun getCourses(): ArrayList<Course>
-        fun getContext(): Context
+        fun start()
+        fun nextPage()
+        fun previousPage()
+        fun keyClicked(v: android.view.View, keyCode: Int, event: KeyEvent): Boolean
+        fun courseClicked(course: Course)
     }
 }
