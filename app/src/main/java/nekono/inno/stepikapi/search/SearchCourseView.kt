@@ -1,4 +1,4 @@
-package nekono.inno.stepikapi
+package nekono.inno.stepikapi.search
 
 import android.app.Activity
 import android.os.Bundle
@@ -12,17 +12,17 @@ import android.content.Context
 import android.preference.PreferenceManager
 import android.net.ConnectivityManager
 import com.google.gson.reflect.TypeToken
-import android.content.SharedPreferences
-
-
+import nekono.inno.stepikapi.R
+import nekono.inno.stepikapi.util.Course
 
 
 class SearchCourseView : Activity(), SearchCourse.View {
 
     val presenter = SearchCoursePresenter(this)
-    lateinit var prevButton : Button
-    lateinit var nextButton : Button
+    lateinit var prevButton: Button
+    lateinit var nextButton: Button
     lateinit var searchEditText: EditText
+    lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +31,8 @@ class SearchCourseView : Activity(), SearchCourse.View {
         nextButton = findViewById(R.id.next_button)
 
         searchEditText = findViewById(R.id.course_search_field)
+
+        recyclerView = findViewById<RecyclerView>(R.id.search_result)
 
         searchEditText.setOnKeyListener({ v, keyCode, event ->
             presenter.keyClicked(v, keyCode, event)
@@ -41,17 +43,16 @@ class SearchCourseView : Activity(), SearchCourse.View {
     }
 
     override fun showCourses() {
-        var recyclerView = findViewById<RecyclerView>(R.id.search_result)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = CourseResultAdapter(presenter)
     }
 
-    public fun onPrevious(view: View){
+    public fun onPrevious(view: View) {
         presenter.previousPage()
     }
 
-    public fun onNext(view: View){
+    public fun onNext(view: View) {
         presenter.nextPage()
     }
 
@@ -82,7 +83,7 @@ class SearchCourseView : Activity(), SearchCourse.View {
         presenter.activityPaused()
     }
 
-    override fun saveCourses(courses: ArrayList<Course>){
+    override fun saveCourses(courses: ArrayList<Course>) {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
         val editor = sharedPrefs.edit()
         val gson = Gson()
@@ -110,13 +111,7 @@ class SearchCourseView : Activity(), SearchCourse.View {
         return arrayList
     }
 
-    override fun showProgressBar() {
 
-    }
-
-    override fun hideProgressBar() {
-
-    }
 
     override fun disableEditText() {
         searchEditText.isEnabled = false

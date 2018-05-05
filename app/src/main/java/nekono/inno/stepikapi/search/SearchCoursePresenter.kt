@@ -1,15 +1,19 @@
-package nekono.inno.stepikapi
+package nekono.inno.stepikapi.search
 
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import nekono.inno.stepikapi.util.API
+import nekono.inno.stepikapi.util.Course
+import nekono.inno.stepikapi.util.Meta
+import nekono.inno.stepikapi.util.Reply
 
 class SearchCoursePresenter(val view: SearchCourse.View) : SearchCourse.Presenter {
     var coursesList = arrayListOf<Course>()
     var pageNumber = 1
-    var request = "Kotlin"
+    var request = "Java"
     val api = API.create()
 
     var markedCourses = arrayListOf<Course>()
@@ -18,7 +22,6 @@ class SearchCoursePresenter(val view: SearchCourse.View) : SearchCourse.Presente
     override fun getCourses() = coursesList
 
     override fun start() {
-        view.showProgressBar()
         view.disableNextButton()
         view.disablePreviousButton()
 
@@ -45,7 +48,6 @@ class SearchCoursePresenter(val view: SearchCourse.View) : SearchCourse.Presente
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onNext, this::onError)
 
-        view.hideProgressBar()
     }
 
     private fun onNext(reply: Reply) {

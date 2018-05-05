@@ -1,4 +1,4 @@
-package nekono.inno.stepikapi
+package nekono.inno.stepikapi.search
 
 import android.support.v7.content.res.AppCompatResources.getDrawable
 import android.support.v7.widget.CardView
@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
+import nekono.inno.stepikapi.R
 
 class CourseResultAdapter(val presenter : SearchCourse.Presenter) : RecyclerView.Adapter<CourseResultAdapter.CourseViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
@@ -28,7 +29,7 @@ class CourseResultAdapter(val presenter : SearchCourse.Presenter) : RecyclerView
                 .placeholder(getDrawable(holder.itemView.context, R.drawable.default_pic)!!)
                 .into(holder.courseCover)
 
-        holder.courseRating.text = course.score.toString()
+      //  holder.courseRating.text = course.score.toString()
 
         holder.starImageView.visibility = if(!course.marked) View.INVISIBLE else View.VISIBLE
 
@@ -37,7 +38,7 @@ class CourseResultAdapter(val presenter : SearchCourse.Presenter) : RecyclerView
     class CourseViewHolder(itemView: View, presenter: SearchCourse.Presenter) : RecyclerView.ViewHolder(itemView){
         var courseName = itemView.findViewById<TextView>(R.id.course_name)
         var courseCover = itemView.findViewById<ImageView>(R.id.course_cover)
-        var courseRating = itemView.findViewById<TextView>(R.id.rating_text_view)
+      //  var courseRating = itemView.findViewById<TextView>(R.id.rating_text_view)
         var cardView  = itemView.findViewById<CardView>(R.id.card_view)
         var starImageView = itemView.findViewById<ImageView>(R.id.star_image_view)
 

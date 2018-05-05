@@ -13,8 +13,8 @@ public class Test extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_activity);
-        Picasso.get().load("https://avatars3.githubusercontent.com/u/13501372?s=400&u=33617e015c5dbd67dd1c615424ba89a8d9fe7d34&v=4")
-                .into((ImageView) findViewById(R.id.imageView));
+//        Picasso.get().load("https://avatars3.githubusercontent.com/u/13501372?s=400&u=33617e015c5dbd67dd1c615424ba89a8d9fe7d34&v=4")
+//                .into((ImageView) findViewById(R.id.imageView));
 
 //        Glide.with(this)
 //                .load("https://avatars3.githubusercontent.com/u/13501372?s=400&u=33617e015c5dbd67dd1c615424ba89a8d9fe7d34&v=4")

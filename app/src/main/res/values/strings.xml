@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">StepikAPI</string>
     <string name="search">Название курса</string>
+    <string name="next">Далее</string>
+    <string name="previous">Назад</string>
 </resources>

@@ -1,6 +1,7 @@
-package nekono.inno.stepikapi
+package nekono.inno.stepikapi.search
 
 import android.view.KeyEvent
+import nekono.inno.stepikapi.util.Course
 
 interface SearchCourse {
     interface View {
@@ -14,8 +15,6 @@ interface SearchCourse {
         fun saveCourses(courses: ArrayList<Course>)
         fun isNetworkAvailable(): Boolean
         fun readCourses() : ArrayList<Course>?
-        fun showProgressBar()
-        fun hideProgressBar()
         fun disableEditText()
     }
 

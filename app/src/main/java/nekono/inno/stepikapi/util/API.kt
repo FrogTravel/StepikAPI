@@ -1,4 +1,4 @@
-package nekono.inno.stepikapi
+package nekono.inno.stepikapi.util
 
 import io.reactivex.Observable
 import retrofit2.Retrofit
@@ -16,7 +16,7 @@ interface API{
 
     companion object {
 
-        fun create(): API{
+        fun create(): API {
             val okHttpClient = OkHttpClient().newBuilder()
             okHttpClient
                     .writeTimeout(3, TimeUnit.SECONDS)
@@ -30,7 +30,7 @@ interface API{
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
 
-            return retrofit.create(API :: class.java)
+            return retrofit.create(API:: class.java)
         }
 
     }

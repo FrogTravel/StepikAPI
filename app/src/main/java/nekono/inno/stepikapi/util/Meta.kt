@@ -1,4 +1,4 @@
-package nekono.inno.stepikapi
+package nekono.inno.stepikapi.util
 
 import com.google.gson.annotations.SerializedName
 
